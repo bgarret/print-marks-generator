@@ -2,7 +2,7 @@ Adds crop and bleed marks to a PDF document.
 
 draw-outline.py is the main script, run it without arguments to get help.
 
-All input dimensions must be expressed in millimeters (sorry for everyone who doesn't use it, you really should ;-))
+All input dimensions must be expressed in millimeters (sorry for everyone who doesn't use the metric system, you really should ;-))
 
 Dependencies:
 * pycairo
