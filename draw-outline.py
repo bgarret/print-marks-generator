@@ -4,13 +4,14 @@ import os.path
 from pyPdf import PdfFileWriter, PdfFileReader
 from outline import OutlineCreator
 from units import *
+import defaults
 
 # Option parsing
-parser = OptionParser("Usage: %prog [options] filename")
-parser.add_option("-c", "--crop-margin", type="float", dest="crop_margin", default=15.)
-parser.add_option("-b", "--bleed-margin", type="float", dest="bleed_margin", default=5.)
-parser.add_option("-o", "--output", type="string", dest="output_filename", default="outline.pdf")
-parser.add_option("-n", "--no-bleed", action="store_true", dest="no_bleed")
+parser = OptionParser("Usage: %prog [options] filename\n\nAll lengths are expressed in millimeters")
+parser.add_option("-c", "--crop-margin", type="float", dest="crop_margin", default=defaults.crop, help="crop margin, defaults to %s" % defaults.crop)
+parser.add_option("-b", "--bleed-margin", type="float", dest="bleed_margin", default=defaults.bleed, help="bleed margin, defaults to %s" % defaults.bleed)
+parser.add_option("-o", "--output", type="string", dest="output_filename", default=defaults.output, help="output filename, defaults to %s" % defaults.output)
+parser.add_option("-n", "--no-bleed", action="store_true", dest="no_bleed", help="set this if the document doesn't have bleed margins, equivalent to setting the bleed margin to 0")
 
 (options, args) = parser.parse_args()
 

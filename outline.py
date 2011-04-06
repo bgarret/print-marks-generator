@@ -2,10 +2,11 @@ import cairo
 import math
 import StringIO
 from units import *
+import defaults
 
 class OutlineCreator:
 
-  def __init__(self, width, height, bleed=5., crop=15.):
+  def __init__(self, width, height, bleed=defaults.bleed, crop=defaults.crop):
     self.bleed, self.crop, self.width, self.height = bleed, crop, width, height
 
     self.print_marks = crop - bleed
