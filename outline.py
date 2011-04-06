@@ -6,11 +6,12 @@ MM_TO_PT = 2.834645669
 
 class OutlineCreator:
 
-  def __init__(self, width, height, bleed=5., crop=15.):
+  def __init__(self, width, height, bleed=5., crop=15., no_bleed=False):
     self.bleed, self.crop, self.width, self.height = bleed, crop, width, height
     self.print_marks = crop - bleed
-    self.total_width = width + self.print_marks * 2
-    self.total_height = height + self.print_marks * 2
+    offset = self.crop if no_bleed else self.print_marks
+    self.total_width = width + offset * 2
+    self.total_height = height + offset * 2
 
     self.output = StringIO.StringIO()
     self.surface = cairo.PDFSurface(self.output, self.total_width * MM_TO_PT, self.total_height * MM_TO_PT)

@@ -9,6 +9,7 @@ parser = OptionParser("Usage: %prog [options] filename")
 parser.add_option("-c", "--crop-margin", type="float", dest="crop_margin", default=15.)
 parser.add_option("-b", "--bleed-margin", type="float", dest="bleed_margin", default=5.)
 parser.add_option("-o", "--output", type="string", dest="output_filename", default="outline.pdf")
+parser.add_option("-n", "--no-bleed", action="store_true", dest="no_bleed")
 
 (options, args) = parser.parse_args()
 
@@ -30,12 +31,13 @@ for page_num in range(document.getNumPages()):
   height = round(float(box[3]) / MM_TO_PT)
 
   # Create the outline
-  outline_creator = OutlineCreator(width, height, bleed=options.bleed_margin, crop=options.crop_margin)
+  outline_creator = OutlineCreator(width, height, bleed=options.bleed_margin, crop=options.crop_margin, no_bleed=options.no_bleed)
   outline = outline_creator.create()
 
   # Merge the outline with the current page and add it to the output
   output.addPage(PdfFileReader(outline).getPage(0))
-  output.getPage(page_num).mergeTranslatedPage(page, outline_creator.print_marks * MM_TO_PT, outline_creator.print_marks * MM_TO_PT)
+  offset = (outline_creator.crop if options.no_bleed else outline_creator.print_marks) * MM_TO_PT
+  output.getPage(page_num).mergeTranslatedPage(page, offset, offset)
 
 
 outputStream = file(options.output_filename, "wb")
