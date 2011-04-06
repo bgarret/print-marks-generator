@@ -1,0 +1,7 @@
+Adds crop and bleed marks to a PDF document.
+
+draw-outline.py is the main script, run it without arguments to get help.
+
+Dependencies:
+* pycairo
+* pyPdf
