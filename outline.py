@@ -26,26 +26,27 @@ class OutlineCreator:
     context.set_source_rgb(0, 0, 0)
     context.set_line_width(0.2)
 
+    # Allow drawing on the context using human-friendly units
     context.scale(MM_TO_PT, MM_TO_PT)
 
     return context
 
-  def put_circle(self, context, x, y, radius):
-    context.arc(x, y, radius, 0, math.pi * 2)
-    context.stroke()
-
   def print_mark(self, x, y, margin):
+    size = margin * 3. / 4.
     context = self.create_context()
     context.translate(x, y)
 
-    self.put_circle(context, 0, 0, 1./3. * margin)
-    self.put_circle(context, 0, 0, 1./6. * margin)
+    # Circles
+    context.arc(0, 0, 1./3. * margin, 0, math.pi * 2)
+    context.arc(0, 0, 1./6. * margin, 0, math.pi * 2)
 
-    context.move_to(0, -3./8. * margin)
-    context.line_to(0, 3./8. * margin)
+    # Vertical line
+    context.move_to(0, -size / 2)
+    context.line_to(0, size / 2)
 
-    context.move_to(-3./8. * margin, 0)
-    context.line_to(3./8. * margin, 0)
+    # Horizontal line
+    context.move_to(-size / 2, 0)
+    context.line_to(size / 2, 0)
 
     context.stroke()
 
@@ -59,25 +60,25 @@ class OutlineCreator:
     return self.crop * 3. / 4.
 
   def create(self):
-    # Top
+    # Top mark
     self.print_mark(
         self.total_width / 2,
         self.print_marks / 2,
         self.print_marks
     )
-    # Bottom
+    # Bottom mark
     self.print_mark(
         self.total_width / 2,
         self.total_height - self.print_marks / 2,
         self.print_marks
     )
-    # Left
+    # Left mark
     self.print_mark(
         self.print_marks / 2,
         self.total_height / 2,
         self.print_marks
     )
-    # Right
+    # Right mark
     self.print_mark(
         self.total_width - self.print_marks/ 2,
         self.total_height / 2,
