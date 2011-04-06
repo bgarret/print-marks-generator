@@ -35,15 +35,14 @@ for page_num in range(document.getNumPages()):
   outline_creator = OutlineCreator(
       width,
       height,
-      bleed=options.bleed_margin,
-      crop=options.crop_margin,
-      no_bleed=options.no_bleed
+      bleed=(0 if options.no_bleed else options.bleed_margin),
+      crop=options.crop_margin
   )
   outline = outline_creator.create()
 
   # Merge the outline with the current page and add it to the output
   output.addPage(PdfFileReader(outline).getPage(0))
-  offset = (outline_creator.crop if options.no_bleed else outline_creator.print_marks) * MM_TO_PT
+  offset = outline_creator.print_marks * MM_TO_PT
   output.getPage(page_num).mergeTranslatedPage(page, offset, offset)
 
 

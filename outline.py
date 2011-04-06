@@ -5,14 +5,13 @@ from units import *
 
 class OutlineCreator:
 
-  def __init__(self, width, height, bleed=5., crop=15., no_bleed=False):
+  def __init__(self, width, height, bleed=5., crop=15.):
     self.bleed, self.crop, self.width, self.height = bleed, crop, width, height
 
     self.print_marks = crop - bleed
 
-    offset = self.crop if no_bleed else self.print_marks
-    self.total_width = width + offset * 2
-    self.total_height = height + offset * 2
+    self.total_width = width + self.print_marks * 2
+    self.total_height = height + self.print_marks * 2
 
     self.output = StringIO.StringIO()
     self.surface = cairo.PDFSurface(
