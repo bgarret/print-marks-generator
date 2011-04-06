@@ -31,7 +31,13 @@ for page_num in range(document.getNumPages()):
   height = round(float(box[3]) / MM_TO_PT)
 
   # Create the outline
-  outline_creator = OutlineCreator(width, height, bleed=options.bleed_margin, crop=options.crop_margin, no_bleed=options.no_bleed)
+  outline_creator = OutlineCreator(
+      width,
+      height,
+      bleed=options.bleed_margin,
+      crop=options.crop_margin,
+      no_bleed=options.no_bleed
+  )
   outline = outline_creator.create()
 
   # Merge the outline with the current page and add it to the output

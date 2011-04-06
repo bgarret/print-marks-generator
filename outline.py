@@ -8,13 +8,19 @@ class OutlineCreator:
 
   def __init__(self, width, height, bleed=5., crop=15., no_bleed=False):
     self.bleed, self.crop, self.width, self.height = bleed, crop, width, height
+
     self.print_marks = crop - bleed
+
     offset = self.crop if no_bleed else self.print_marks
     self.total_width = width + offset * 2
     self.total_height = height + offset * 2
 
     self.output = StringIO.StringIO()
-    self.surface = cairo.PDFSurface(self.output, self.total_width * MM_TO_PT, self.total_height * MM_TO_PT)
+    self.surface = cairo.PDFSurface(
+        self.output,
+        self.total_width * MM_TO_PT,
+        self.total_height * MM_TO_PT
+    )
 
   def create_context(self):
     context = cairo.Context(self.surface)
@@ -55,26 +61,82 @@ class OutlineCreator:
 
   def create(self):
     # Top
-    self.print_mark(self.total_width / 2, self.print_marks / 2, self.print_marks)
+    self.print_mark(
+        self.total_width / 2,
+        self.print_marks / 2,
+        self.print_marks
+    )
     # Bottom
-    self.print_mark(self.total_width / 2, self.total_height - self.print_marks / 2, self.print_marks)
+    self.print_mark(
+        self.total_width / 2,
+        self.total_height - self.print_marks / 2,
+        self.print_marks
+    )
     # Left
-    self.print_mark(self.print_marks / 2, self.total_height / 2, self.print_marks)
+    self.print_mark(
+        self.print_marks / 2,
+        self.total_height / 2,
+        self.print_marks
+    )
     # Right
-    self.print_mark(self.total_width - self.print_marks/ 2, self.total_height / 2, self.print_marks)
+    self.print_mark(
+        self.total_width - self.print_marks/ 2,
+        self.total_height / 2,
+        self.print_marks
+    )
 
     # Top cut
-    self.print_line(0, self.crop, self.crop_width(), self.crop)
-    self.print_line(self.total_width, self.crop, self.total_width - self.crop_width(), self.crop)
+    self.print_line(
+        0,
+        self.crop,
+        self.crop_width(),
+        self.crop
+    )
+    self.print_line(
+        self.total_width,
+        self.crop,
+        self.total_width - self.crop_width(),
+        self.crop
+    )
     # Bottom cut
-    self.print_line(0, self.total_height - self.crop, self.crop_width(), self.total_height - self.crop)
-    self.print_line(self.total_width, self.total_height - self.crop, self.total_width - self.crop_width(), self.total_height - self.crop)
+    self.print_line(
+        0,
+        self.total_height - self.crop,
+        self.crop_width(),
+        self.total_height - self.crop
+    )
+    self.print_line(
+        self.total_width,
+        self.total_height - self.crop,
+        self.total_width - self.crop_width(),
+        self.total_height - self.crop
+    )
     # Left cut
-    self.print_line(self.crop, 0, self.crop, self.crop_width())
-    self.print_line(self.crop, self.total_height, self.crop, self.total_height - self.crop_width())
+    self.print_line(
+        self.crop,
+        0,
+        self.crop,
+        self.crop_width()
+    )
+    self.print_line(
+        self.crop,
+        self.total_height,
+        self.crop,
+        self.total_height - self.crop_width()
+    )
     # Right cut
-    self.print_line(self.total_width - self.crop, 0, self.total_width - self.crop, self.crop_width())
-    self.print_line(self.total_width - self.crop, self.total_height, self.total_width - self.crop, self.total_height - self.crop_width())
+    self.print_line(
+        self.total_width - self.crop,
+        0,
+        self.total_width - self.crop,
+        self.crop_width()
+    )
+    self.print_line(
+        self.total_width - self.crop,
+        self.total_height,
+        self.total_width - self.crop,
+        self.total_height - self.crop_width()
+    )
 
     self.surface.flush()
     self.surface.finish()
