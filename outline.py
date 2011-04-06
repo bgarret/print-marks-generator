@@ -1,8 +1,7 @@
 import cairo
 import math
 import StringIO
-
-MM_TO_PT = 2.834645669
+from units import *
 
 class OutlineCreator:
 

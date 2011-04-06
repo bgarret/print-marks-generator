@@ -2,7 +2,8 @@
 from optparse import OptionParser
 import os.path
 from pyPdf import PdfFileWriter, PdfFileReader
-from outline import OutlineCreator, MM_TO_PT
+from outline import OutlineCreator
+from units import *
 
 # Option parsing
 parser = OptionParser("Usage: %prog [options] filename")
